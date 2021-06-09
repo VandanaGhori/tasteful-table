@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.admin.FactoryResetProtectionPolicy;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         initialize();
         setNavigationDrawer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void initialize() {
@@ -42,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
                 Fragment frag = null;
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_home) {
-                    mDrawerLayout.closeDrawers();
+                    frag = new HomeFragment();
+                } else if (itemId == R.id.nav_my_account) {
+                    frag = new MyAccountFragment();
                 } else if (itemId == R.id.nav_favourite) {
                     frag = new FavoriteFragment();
                 } else if (itemId == R.id.nav_share_app) {

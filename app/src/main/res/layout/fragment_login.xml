@@ -94,7 +94,6 @@
             android:textSize="18sp"
             />
 
-
     </LinearLayout>
 
     <TextView
@@ -105,7 +104,7 @@
         android:text="---------- Use other methods ----------"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <LinearLayout

@@ -67,16 +67,16 @@ public class MyAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.fragment_my_account, container, false);
-        linkTextView = (TextView) view.findViewById(R.id.activity_link);
+        //linkTextView = (TextView) view.findViewById(R.id.activity_link);
         //linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        linkTextView.setTextColor(ContextCompat.getColor(getContext(),R.color.teal_700));
-        linkTextView.setOnClickListener(new View.OnClickListener() {
+       // linkTextView.setTextColor(ContextCompat.getColor(getContext(),R.color.teal_700));
+        /*linkTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(),MainActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
         // Inflate the layout for this fragment
         return view;
     }

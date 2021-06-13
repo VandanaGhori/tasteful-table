@@ -12,7 +12,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class GetRecipeAsyncTask extends AsyncTask<String, Void, String> {
-    public static final String URL = "http://www.recipe.test/api/recipe/read.php";
+    //public static final String URL = "http://10.0.2.2:80/api/recipe/read.php";
+    public static final String URL = "http://recipe.patel422.myweb.cs.uwindsor.ca/api/recipe/read.php";
     public static final String REQUEST_METHOD = "GET";
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
@@ -56,7 +57,7 @@ public class GetRecipeAsyncTask extends AsyncTask<String, Void, String> {
             bufferedReader.close();
             inputStreamReader.close();
 
-            Log.i("do In Background." ,stringBuilder.toString());
+            //Log.i("do In Background." ,stringBuilder.toString());
             // Set our result to string result
             res = stringBuilder.toString();
 

@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
                 if (itemId == R.id.nav_home) {
                     frag = new HomeFragment();
                 } else if (itemId == R.id.nav_my_account) {
-                    frag = new MyAccountFragment();
+                    frag = new LoginFragment();
                 } else if (itemId == R.id.nav_favourite) {
                     frag = new FavoriteFragment();
                 } else if (itemId == R.id.nav_share_app) {
                     frag = new AppShareFragment();
                 }
-                Toast.makeText(getApplicationContext(),item.getTitle(),Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),item.getTitle(),Toast.LENGTH_LONG).show();
                 if (frag != null) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();

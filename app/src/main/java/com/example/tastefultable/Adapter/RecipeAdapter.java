@@ -1,6 +1,8 @@
 package com.example.tastefultable.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tastefultable.MainActivity;
 import com.example.tastefultable.R;
+import com.example.tastefultable.RecipePreparationActivity;
 import com.example.tastefultable.model.Recipe;
 
 import java.util.List;
@@ -35,6 +39,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             super(itemView);
             mRecipeImage = (ImageView) itemView.findViewById(R.id.recipeImage);
             mRecipeName = (TextView) itemView.findViewById(R.id.recipeName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    Recipe recipe = mRecipeList.get(pos);
+                    Intent intent = new Intent(context, RecipePreparationActivity.class);
+                    intent.putExtra("recipe",recipe);
+                    //intent.putExtra("Name","Hello");
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

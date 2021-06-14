@@ -82,7 +82,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        textViewHomeFragment = (TextView) view.findViewById(R.id.textViewHomeFragment);
         recipeRecyclerView = (RecyclerView) view.findViewById(R.id.recipeRecyclerView);
         recipeList = new ArrayList<>();
         getRecipesTask();
@@ -119,7 +118,7 @@ public class HomeFragment extends Fragment {
                 recipeList.add(recipe);
             }
 
-            Toast.makeText(getContext(), "Result = " + recipeList.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Result = " + recipeList.toString(), Toast.LENGTH_LONG).show();
             //textViewHomeFragment.setText("Result = " + result);
         } catch (ExecutionException e) {
             e.printStackTrace();

@@ -9,5 +9,7 @@
     <string name="from_my_account_fragment">From My Account Fragment</string>
 
     <string name="hyperlinkRegister"><a href="www.facebook.com">New User? Register Now</a></string>
+    <string name="ingredients">Ingredients Required</string>
+    <string name="directions_to_prepare">Directions to Prepare</string>
     <string name="register">Register</string>
 </resources>

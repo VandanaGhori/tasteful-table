@@ -36,12 +36,13 @@
                     android:textSize="18dp" />
 
                 <ImageView
-                    android:layout_width="40dp"
+                    android:layout_width="30dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_baseline_favorite_border_24" />
             </LinearLayout>
 
             <TextView
+                android:id="@+id/timeTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1 Hour 10 Mins"
@@ -136,6 +137,7 @@
             </LinearLayout>
 
             <ListView
+                android:id="@+id/myIngredientsListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

@@ -10,11 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class GetIngredientsAsyncTask extends AsyncTask<String, Void, String> {
-    //public static final String URL = "http://localhost/TastefulTableAPI/api/ingredients/read.php?id=";
-    // Need to call server API request
-    //public static final String URL = "http://recipe.patel422.myweb.cs.uwindsor.ca/api/ingredients/read.php?id=";
-    public static final String URL = "https://tastefultable.000webhostapp.com/tastefulTable/api/ingredients/read.php?id=";
+public class GetPreparationsAsyncTask extends AsyncTask<String, Void, String> {
+    public static final String URL = "https://tastefultable.000webhostapp.com/tastefulTable/api/preparations/read.php?id=";
     public static final String REQUEST_METHOD = "GET";
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
@@ -25,7 +22,7 @@ public class GetIngredientsAsyncTask extends AsyncTask<String, Void, String> {
         String res = "";
         String inputLine;
         HttpURLConnection connection = null;
-        URL myUrl;
+        java.net.URL myUrl;
 
         try {
             myUrl = new URL(params[0]);
@@ -71,3 +68,4 @@ public class GetIngredientsAsyncTask extends AsyncTask<String, Void, String> {
         super.onPostExecute(res);
     }
 }
+

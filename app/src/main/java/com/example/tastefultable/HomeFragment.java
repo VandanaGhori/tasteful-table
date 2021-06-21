@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
         try {
             result = getRecipeAsyncTask.execute(GetRecipeAsyncTask.URL).get();
 
-            Log.i("Result=", result);
+            //Log.i("Result=", result);
             JSONObject jsonObject = new JSONObject(result);
             JSONArray jsonArray = jsonObject.getJSONArray("data");
 

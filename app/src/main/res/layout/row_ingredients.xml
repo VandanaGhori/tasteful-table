@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:checked="true"
-            android:layout_marginStart="20dp"/>
+            android:checked="false" />
 
         <TextView
             android:id="@+id/ingredientsTextView"
@@ -25,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:text="First Ingredients" />
+            android:text="First Ingredients"
+            android:textSize="12dp"/>
     </LinearLayout>
 
 </LinearLayout>

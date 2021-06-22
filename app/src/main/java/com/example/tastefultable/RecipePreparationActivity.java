@@ -3,7 +3,9 @@ package com.example.tastefultable;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.tastefultable.Adapter.IngredientsAdapter;
+import com.example.tastefultable.model.ApiResponse;
 import com.example.tastefultable.model.Ingredients;
 import com.example.tastefultable.model.Preparations;
 import com.example.tastefultable.model.Recipe;
@@ -28,13 +31,17 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipePreparationActivity extends AppCompatActivity {
     ImageView mRecipeImage;
     TextView mTextViewRecipeName;
     TextView mTextViewTime;
     TextView mTextViewPreparationsSteps;
+    TextView mNumberOfIngredients;
     String res;
     List<Ingredients> mIngredientsList;
     ListView mIngredientsListView;
@@ -49,11 +56,11 @@ public class RecipePreparationActivity extends AppCompatActivity {
         initializeData();
         getRecipeData();
         getIngredientsData();
-        //getApiResults();
-        getPreparationsData();
+        getApiResults();
+        //getPreparationsData();
     }
 
-    private void getPreparationsData() {
+    /*private void getPreparationsData() {
         Intent intent = getIntent();
         Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
 
@@ -85,36 +92,61 @@ public class RecipePreparationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    /*private void getApiResults() {
-        //Retrofit retrofit = new Retrofit.Builder().baseUrl("http://recipe.patel422.myweb.cs.uwindsor.ca/").build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://tastefultable.000webhostapp.com/").build();
+    private void getApiResults() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tastefultable.000webhostapp.com/tastefulTable/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         RetrofitObjectPreparationsAPI service = retrofit.create(RetrofitObjectPreparationsAPI.class);
 
-        Call<List<Preparations>> repos = service.listPreparations();
+        Call<ApiResponse<List<Preparations>>> repos = service.listPreparations();
+        repos.enqueue(new Callback<ApiResponse<List<Preparations>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Preparations>>> call,
+                                   Response<ApiResponse<List<Preparations>>> response) {
+                ApiResponse res = response.body();
 
-        Log.i("Retrofit Result = ", String.valueOf(repos));
-        // After getting result in log cat window we can show it into textview.
-    }*/
+                List<Preparations> list = (List<Preparations>) res.getData();
 
-    /*public static RetrofitObjectPreparationsAPI getPreparationsList() {
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint("http://healthyblackmen.org").// setting the Root URL
-                build(); // Finally building the adapter
+                //Log.d("Api response:", "onResponse: " + list.size());
 
-        RetrofitObjectPreparationsAPI api = adapter.create(RetrofitObjectPreparationsAPI.class);
+                showPreparationSteps(list);
+            }
 
+            @Override
+            public void onFailure(Call<ApiResponse<List<Preparations>>> call, Throwable t) {
+                Toast.makeText(RecipePreparationActivity.this, "Something went wrong!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"),)
-        return api; // building the adapter
-    }*/
+    private void showPreparationSteps(List<Preparations> pList) {
+        if (pList.size() != 0) {
+            for (int i = 0; i < pList.size(); i++) {
+                int id = pList.get(i).getId();
+                int rec_id = pList.get(i).getRec_id();
+                String steps = pList.get(i).getSteps();
+                int order_no = pList.get(i).getOrder_no();
+
+                // Setting the size of TextView via Java code
+                mTextViewPreparationsSteps.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+                mTextViewPreparationsSteps.append(order_no + ". " + steps + "\n\n");
+            }
+        } else {
+            mTextViewPreparationsSteps.setText("Preparations steps are not there!");
+            return;
+        }
+    }
 
     private void initializeData() {
         mRecipeImage = (ImageView) findViewById(R.id.imageViewRecipe);
         mTextViewRecipeName = (TextView) findViewById(R.id.textViewRecipeTitle);
         mTextViewTime = (TextView) findViewById(R.id.timeTextView);
         mTextViewPreparationsSteps = (TextView) findViewById(R.id.textViewPreparationsSteps);
+        mNumberOfIngredients = (TextView) findViewById(R.id.numberOfIngredients);
     }
 
     private void getRecipeData() {
@@ -131,15 +163,11 @@ public class RecipePreparationActivity extends AppCompatActivity {
         int t = Integer.parseInt(time[0]);
         int hrs = t / 60;
         int minutes = t % 60;
-        //Toast.makeText(this,"Time Hours: " + hrs + "Minutes: " + minutes,Toast.LENGTH_LONG).show();
-        // String msg = minutes > 60 ? hrs + " Hr " + minutes + " Mins" : hrs + " Hr ";
-
         if (minutes > 0) {
             mTextViewTime.setText(hrs + " Hr " + minutes + " Mins");
         } else {
             mTextViewTime.setText(hrs + " Hr ");
         }
-        //mTextViewTime.setText(new SimpleDateFormat("HH:MM", Locale.CANADA).format(t));
     }
 
     private void getIngredientsData() {
@@ -165,7 +193,10 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
                     Ingredients ingredients = new Ingredients(id, rec_id, name, qty, img_url);
                     mIngredientsList.add(ingredients);
+
                 }
+                // Set count of total number of ingredients
+                mNumberOfIngredients.setText(String.valueOf(mIngredientsList.size()));
                 bindAdapter();
             } else {
                 return;
@@ -182,7 +213,7 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
     private void bindAdapter() {
         mIngredientsListView = (ListView) findViewById(R.id.myIngredientsListView);
-        ingredientsAdapter = new IngredientsAdapter(getApplicationContext(),mIngredientsList);
+        ingredientsAdapter = new IngredientsAdapter(getApplicationContext(), mIngredientsList);
         mIngredientsListView.setAdapter(ingredientsAdapter);
     }
 

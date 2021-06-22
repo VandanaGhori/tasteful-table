@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.service.autofill.RegexValidator;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +35,8 @@ public class MyAccountFragment extends Fragment {
     private String mParam2;
 
     TextView linkTextView;
+    TextView mNameTextView, mEmailTextView, mPasswordTextView, mConfirmPasswordTextView;
+    AppCompatButton mRegisterButton;
 
     public MyAccountFragment() {
         // Required empty public constructor
@@ -67,17 +74,62 @@ public class MyAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.fragment_my_account, container, false);
-        //linkTextView = (TextView) view.findViewById(R.id.activity_link);
-        //linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-       // linkTextView.setTextColor(ContextCompat.getColor(getContext(),R.color.teal_700));
-        /*linkTextView.setOnClickListener(new View.OnClickListener() {
+
+        initialization(view);
+        mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),MainActivity.class);
-                startActivity(intent);
+                if(validateUserInput()){
+
+                }
             }
-        });*/
+        });
+
         // Inflate the layout for this fragment
         return view;
     }
+
+    private void initialization(View view) {
+        mNameTextView = (TextView) view.findViewById(R.id.textViewName);
+        mEmailTextView = (TextView) view.findViewById(R.id.textViewEmail);
+        mPasswordTextView = (TextView) view.findViewById(R.id.textViewPassword);
+        mConfirmPasswordTextView = (TextView) view.findViewById(R.id.textViewConfirmPassword);
+        mRegisterButton = (AppCompatButton) view.findViewById(R.id.registerButton);
+    }
+
+    private boolean validateUserInput() {
+        String msg = "";
+        String name = mNameTextView.getText().toString().trim();
+        String email = mNameTextView.getText().toString().trim();
+        String password = mNameTextView.getText().toString().trim();
+        String confirmPassword = mConfirmPasswordTextView.getText().toString().trim();
+
+        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(email)
+                || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
+            msg = "Please fill all fields correctly!";
+            Toast.makeText(getContext(),msg,Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(password.length() < 6) {
+            msg = "Password should contain at least 6 characters!";
+            Toast.makeText(getContext(),msg,Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(!password.equals(confirmPassword)) {
+            msg = "Password and confirm password should be matched!";
+            Toast.makeText(getContext(),msg,Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            msg = "Please enter proper email address!";
+            Toast.makeText(getContext(),msg,Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
+
 }

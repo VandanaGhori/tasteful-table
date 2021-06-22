@@ -49,9 +49,7 @@ public class IngredientsAdapter extends BaseAdapter {
         mIngredientsCheckBox = (CheckBox) view.findViewById(R.id.ingredientsCheckBox);
         mIngredientsTextView = (TextView) view.findViewById(R.id.ingredientsTextView);
 
-        mIngredientsTextView.setText(ingredients.getName());
-        //mIngredientsList = new ArrayList<>();
-
+        mIngredientsTextView.setText(ingredients.getQty() + " " + ingredients.getName());
         return view;
     }
 

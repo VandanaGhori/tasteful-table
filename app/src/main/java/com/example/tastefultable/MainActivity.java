@@ -9,8 +9,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.admin.FactoryResetProtectionPolicy;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -24,9 +27,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialize();
+
+        loadFragment(new HomeFragment());
+
         setNavigationDrawer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    // Need to override this method to hide soft keyboard over the change between EditTextView
+    /*@Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
+    }*/
+
+    private void loadFragment(Fragment frag) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayout,frag);
+        transaction.commit();
     }
 
     private void initialize() {
@@ -54,10 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                // Toast.makeText(getApplicationContext(),item.getTitle(),Toast.LENGTH_LONG).show();
                 if (frag != null) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.replace(R.id.frameLayout,frag);
-                    transaction.commit();
+                    loadFragment(frag);
                     mDrawerLayout.closeDrawers();
                     return true;
                 }
@@ -65,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

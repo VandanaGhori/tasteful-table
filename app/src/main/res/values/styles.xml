@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Registration_Title" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/teal_700</item>
         <item name="android:gravity">center</item>
     </style>

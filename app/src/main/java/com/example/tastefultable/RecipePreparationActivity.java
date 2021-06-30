@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -56,6 +57,7 @@ public class RecipePreparationActivity extends AppCompatActivity {
         initializeData();
         getRecipeData();
         getIngredientsData();
+        // For getting preparations Data
         getApiResults();
         //getPreparationsData();
     }
@@ -94,7 +96,12 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
     }*/
 
+    // For getting preparations Data
     private void getApiResults() {
+        // For passing id as the query parameter
+        Intent intent = getIntent();
+        Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://tastefultable.000webhostapp.com/tastefulTable/api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -102,18 +109,32 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
         RetrofitObjectPreparationsAPI service = retrofit.create(RetrofitObjectPreparationsAPI.class);
 
-        Call<ApiResponse<List<Preparations>>> repos = service.listPreparations();
+        // At the time of Requesting API pass parameter id.
+        Call<ApiResponse<List<Preparations>>> repos = service.listPreparations(recipe.getId());
+
         repos.enqueue(new Callback<ApiResponse<List<Preparations>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<Preparations>>> call,
                                    Response<ApiResponse<List<Preparations>>> response) {
+
+                if(!response.isSuccessful())
+                {
+                    return;
+                }
+
                 ApiResponse res = response.body();
+                //Log.i("RESPONSE PREPARATION", "on API Response: "+ res);
 
-                List<Preparations> list = (List<Preparations>) res.getData();
+                if(res != null) {
+                    List<Preparations> list = (List<Preparations>) res.getData();
+                    //Log.d("Api response:", "onResponse: " + list.size());
 
-                //Log.d("Api response:", "onResponse: " + list.size());
-
-                showPreparationSteps(list);
+                    if(list.size() != 0) {
+                        showPreparationSteps(list);
+                    }
+                } else {
+                    return;
+                }
             }
 
             @Override

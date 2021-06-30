@@ -8,8 +8,21 @@
     <string name="from_app_share_fragment">From App Share Fragment</string>
     <string name="from_my_account_fragment">From My Account Fragment</string>
 
-    <string name="hyperlinkRegister"><a href="www.facebook.com">New User? Register Now</a></string>
+    <string name="hyperlinkRegister">New User? Register Now</string>
     <string name="ingredients">Ingredients Required</string>
     <string name="directions_to_prepare">Directions to Prepare</string>
     <string name="register">Register</string>
+    <string name="here_s_your_first_step_with_us">Here\'s your first step with us!</string>
+    <string name="use_other_methods">---------- Use other methods ----------</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">Login</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="password_mismatch">Password and confirm password should be matched!</string>
+    <string name="password_length_constraint">Password should contain at least 6 characters!</string>
+    <string name="confirm_password_length_constraint">Confirm Password should contain at least 6 characters!</string>
+    <string name="email_constraint">Please enter proper email address!</string>
+    <string name="validate_all_registrations_inputs">Please fill all fields!</string>
 </resources>

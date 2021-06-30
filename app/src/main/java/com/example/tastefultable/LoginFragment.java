@@ -1,6 +1,7 @@
 package com.example.tastefultable;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -69,22 +70,26 @@ public class LoginFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         linkTextView = (TextView) view.findViewById(R.id.activity_link);
+
+        // Set underline dynamically for link
+        linkTextView.setPaintFlags(linkTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         //linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        linkTextView.setTextColor(ContextCompat.getColor(getContext(),R.color.teal_700));
+        linkTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.teal_700));
         linkTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new MyAccountFragment());
             }
-
-            private void loadFragment(Fragment fragment) {
-                // load new Fragment
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.frameLayout,fragment);
-                transaction.commit();
-            }
         });
         return view;
+    }
+
+    private void loadFragment(Fragment fragment) {
+        // load new Fragment
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragment);
+        transaction.commit();
     }
 }

@@ -10,10 +10,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.admin.FactoryResetProtectionPolicy;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -21,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;  // Menu Button
+    TextView mTextViewEmailId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,21 +33,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initialize();
 
+        // if sharedPreference is set then get email id.
+        SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(this);
+        String email = prefsUserEmail.getString("Email","");
+        if(!email.equalsIgnoreCase(""))
+        {
+           // mTextViewEmailId.setText(this.getString(R.string.welcome) + email);
+        }
+
         loadFragment(new HomeFragment());
 
         setNavigationDrawer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-    // Need to override this method to hide soft keyboard over the change between EditTextView
-    /*@Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (getCurrentFocus() != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-        return super.dispatchTouchEvent(ev);
-    }*/
 
     private void loadFragment(Fragment frag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -60,6 +63,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setNavigationDrawer() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        // To access the email Id textview from the headerView.
+        View headerView = navigationView.getHeaderView(0);
+        mTextViewEmailId = (TextView) headerView.findViewById(R.id.textViewUserEmailID);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String email = sharedPreferences.getString("Email","");
+        mTextViewEmailId.setText(email);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -84,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

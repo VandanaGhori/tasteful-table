@@ -2,8 +2,22 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:orientation="vertical"
-    android:background="@drawable/indian_buffet">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:src="@drawable/indian_buffet"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/textViewUserEmailID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"/>
 
 </LinearLayout>

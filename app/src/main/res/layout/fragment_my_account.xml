@@ -122,6 +122,17 @@
                 android:text="@string/register"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/activity_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/hyperlinkLogin"
+                android:textColor="#009688"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
         <Space
@@ -134,7 +145,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/useOtherMethodsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,7 +176,7 @@
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/logo_google" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
         </LinearLayout>
 

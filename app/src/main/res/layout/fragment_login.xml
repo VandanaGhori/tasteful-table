@@ -8,6 +8,7 @@
     tools:context=".MyAccountFragment">
 
     <LinearLayout
+        android:id="@+id/parentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -106,7 +107,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/useOtherMethodsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -137,7 +138,7 @@
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/logo_google" />
 
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

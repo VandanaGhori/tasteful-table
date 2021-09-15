@@ -11,9 +11,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class GetIngredientsAsyncTask extends AsyncTask<String, Void, String> {
-    //public static final String URL = "http://localhost/TastefulTableAPI/api/ingredients/read.php?id=";
-    // Need to call server API request
-    //public static final String URL = "http://recipe.patel422.myweb.cs.uwindsor.ca/api/ingredients/read.php?id=";
     public static final String URL = "https://tastefultable.000webhostapp.com/tastefulTable/api/ingredients/read.php?id=";
     public static final String REQUEST_METHOD = "GET";
     public static final int READ_TIMEOUT = 15000;
@@ -21,7 +18,6 @@ public class GetIngredientsAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String url = params[0];
         String res = "";
         String inputLine;
         HttpURLConnection connection = null;

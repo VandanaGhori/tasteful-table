@@ -9,6 +9,7 @@
     <string name="from_my_account_fragment">From My Account Fragment</string>
 
     <string name="hyperlinkRegister">New User? Register Now</string>
+    <string name="hyperlinkLogin">Already Register? Login Here</string>
     <string name="ingredients">Ingredients Required</string>
     <string name="directions_to_prepare">Directions to Prepare</string>
     <string name="register">Register</string>
@@ -25,4 +26,8 @@
     <string name="confirm_password_length_constraint">Confirm Password should contain at least 6 characters!</string>
     <string name="email_constraint">Please enter proper email address!</string>
     <string name="validate_all_registrations_inputs">Please fill all fields!</string>
+    <string name="welcome">Welcome</string>
+    <string name="user_not_registered">User is not registered. Please Register yourself.</string>
+    <string name="user_already_registered">User is already registered. Please try to login.</string>
+    <string name="alert_title">Notice.</string>
 </resources>

@@ -2,10 +2,8 @@ package com.example.tastefultable;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,18 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.tastefultable.Adapter.IngredientsAdapter;
-import com.example.tastefultable.model.ApiResponse;
+import com.example.tastefultable.model.GeneralApiResponse;
 import com.example.tastefultable.model.Ingredients;
 import com.example.tastefultable.model.Preparations;
 import com.example.tastefultable.model.Recipe;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -55,10 +51,14 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeData();
+
+        // Through intent
         getRecipeData();
+        // Through AsyncTask
         getIngredientsData();
+
         // For getting preparations Data
-        getApiResults();
+        getPreparationsApiResults();
         //getPreparationsData();
     }
 
@@ -97,7 +97,7 @@ public class RecipePreparationActivity extends AppCompatActivity {
     }*/
 
     // For getting preparations Data
-    private void getApiResults() {
+    private void getPreparationsApiResults() {
         // For passing id as the query parameter
         Intent intent = getIntent();
         Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
@@ -110,42 +110,36 @@ public class RecipePreparationActivity extends AppCompatActivity {
         RetrofitObjectPreparationsAPI service = retrofit.create(RetrofitObjectPreparationsAPI.class);
 
         // At the time of Requesting API pass parameter id.
-        Call<ApiResponse<List<Preparations>>> repos = service.listPreparations(recipe.getId());
+        Call<GeneralApiResponse<List<Preparations>>> repos = service.listPreparations(recipe.getId());
 
-        repos.enqueue(new Callback<ApiResponse<List<Preparations>>>() {
+        repos.enqueue(new Callback<GeneralApiResponse<List<Preparations>>>() {
             @Override
-            public void onResponse(Call<ApiResponse<List<Preparations>>> call,
-                                   Response<ApiResponse<List<Preparations>>> response) {
+            public void onResponse(Call<GeneralApiResponse<List<Preparations>>> call, Response<GeneralApiResponse<List<Preparations>>> response) {
 
-                if(!response.isSuccessful())
-                {
-                    return;
-                }
+                GeneralApiResponse apiResponse = response.body();
+                //Log.i("PREPARATIONS RESPONSE", "onResponse: " + apiResponse);
 
-                ApiResponse res = response.body();
-                //Log.i("RESPONSE PREPARATION", "on API Response: "+ res);
+                if(apiResponse != null) {
+                    boolean success_key = apiResponse.isSuccess();
+                    //Log.i("Success", "onResponse: " + success_key);
 
-                if(res != null) {
-                    List<Preparations> list = (List<Preparations>) res.getData();
-                    //Log.d("Api response:", "onResponse: " + list.size());
-
-                    if(list.size() != 0) {
+                    if(apiResponse.isSuccess() == true && apiResponse.getError_code() == 200) {
+                        List<Preparations> list = (List<Preparations>) apiResponse.getData();
+                       // Log.i("Api response:", "onResponse: " + list.size());
                         showPreparationSteps(list);
-                    }
-                } else {
-                    return;
-                }
+                    } else { return; }
+                } else { return; }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<List<Preparations>>> call, Throwable t) {
-                Toast.makeText(RecipePreparationActivity.this, "Something went wrong!", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<GeneralApiResponse<List<Preparations>>> call, Throwable t) {
+                Toast.makeText(RecipePreparationActivity.this, "API call Failure On Preparations " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void showPreparationSteps(List<Preparations> pList) {
-        if (pList.size() != 0) {
+        if (pList != null && pList.size() != 0) {
             for (int i = 0; i < pList.size(); i++) {
                 int id = pList.get(i).getId();
                 int rec_id = pList.get(i).getRec_id();

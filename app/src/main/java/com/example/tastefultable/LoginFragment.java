@@ -205,10 +205,10 @@ public class LoginFragment extends Fragment {
         //Log.i("USER", "showLoggedInUser: " + user.getEmail());
 
         // Store the email into sharedPreference after registration get successful
-        SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(getContext());
+        /*SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = prefsUserEmail.edit();
         editor.putString("Email",email);
-        editor.apply();
+        editor.apply();*/
     }
 
     private String validateUserInput() {

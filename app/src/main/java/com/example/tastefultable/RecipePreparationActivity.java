@@ -116,14 +116,14 @@ public class RecipePreparationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GeneralApiResponse<List<Preparations>>> call, Response<GeneralApiResponse<List<Preparations>>> response) {
 
-                GeneralApiResponse apiResponse = response.body();
+                GeneralApiResponse<List<Preparations>> apiResponse = response.body();
                 //Log.i("PREPARATIONS RESPONSE", "onResponse: " + apiResponse);
 
                 if(apiResponse != null) {
-                    boolean success_key = apiResponse.isSuccess();
+                    //boolean success_key = apiResponse.isSuccess();
                     //Log.i("Success", "onResponse: " + success_key);
 
-                    if(apiResponse.isSuccess() == true && apiResponse.getError_code() == 200) {
+                    if(apiResponse.isSuccess() && apiResponse.getError_code() == 200) {
                         List<Preparations> list = (List<Preparations>) apiResponse.getData();
                        // Log.i("Api response:", "onResponse: " + list.size());
                         showPreparationSteps(list);

@@ -221,10 +221,10 @@ public class MyAccountFragment extends Fragment {
         Log.i("------", "Email: " + email);
 
         // Store the email into sharedPreference after registration get successful
-        SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(getContext());
+        /*SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = prefsUserEmail.edit();
         editor.putString("Email",email);
-        editor.apply();
+        editor.apply();*/
     }
 
     // When we create variable of type interface we need to implement it's method, // variable created for interface implementation

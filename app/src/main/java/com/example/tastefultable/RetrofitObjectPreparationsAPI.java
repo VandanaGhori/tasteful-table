@@ -1,6 +1,7 @@
 package com.example.tastefultable;
 import com.example.tastefultable.model.GeneralApiResponse;
 import com.example.tastefultable.model.Preparations;
+import com.example.tastefultable.model.Recipe;
 import com.example.tastefultable.model.User;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface RetrofitObjectPreparationsAPI {
     @FormUrlEncoded
     Call<GeneralApiResponse<User>> userLogin(@Field("email") String email,
                                              @Field("password") String password);
+
+    @GET("recipes/read.php")
+    Call<GeneralApiResponse<List<Recipe>>> listRecipes();
 }

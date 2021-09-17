@@ -34,12 +34,12 @@ public class MainActivity extends AppCompatActivity {
         initialize();
 
         // if sharedPreference is set then get email id.
-        SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(this);
         String email = prefsUserEmail.getString("Email","");
         if(!email.equalsIgnoreCase(""))
         {
-           // mTextViewEmailId.setText(this.getString(R.string.welcome) + email);
-        }
+            mTextViewEmailId.setText(this.getString(R.string.welcome) + email);
+        }*/
 
         loadFragment(new HomeFragment());
 
@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         mTextViewEmailId = (TextView) headerView.findViewById(R.id.textViewUserEmailID);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String email = sharedPreferences.getString("Email","");
-        mTextViewEmailId.setText(email);
+        mTextViewEmailId.setText(email);*/
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

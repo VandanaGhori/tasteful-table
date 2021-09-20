@@ -31,6 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
+import PreferencesManager.PreferencesManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -201,6 +202,16 @@ public class LoginFragment extends Fragment {
 
     private void showLoggedInUser(User user) {
         String email = user.getEmail();
+        int user_id = (user.getId());
+        //Log.i("LOGGED IN USER", "showLoggedInUser: " + user);
+        //Log.i("LOGGED IN USER", "showLoggedInUser: " + user.getId());
+        //Log.i("LOGGED IN USER", "showLoggedInUser: " + user.getToken());
+
+        //PreferencesManager preferencesManagerInstance = PreferencesManager.getInstance();
+        //SharedPreferences sharedPreferences = PreferencesManager.getSharedPreferences(getContext());
+        PreferencesManager.putString(getContext(),"Email",email);
+        PreferencesManager.putString(getContext(),"Id",String.valueOf(user_id));
+        PreferencesManager.putString(getContext(),"Token",user.getToken());
 
         //Log.i("USER", "showLoggedInUser: " + user.getEmail());
 

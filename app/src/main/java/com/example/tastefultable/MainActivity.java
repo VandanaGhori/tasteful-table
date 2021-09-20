@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+
+import PreferencesManager.PreferencesManager;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -32,14 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialize();
-
-        // if sharedPreference is set then get email id.
-        /*SharedPreferences prefsUserEmail = PreferenceManager.getDefaultSharedPreferences(this);
-        String email = prefsUserEmail.getString("Email","");
-        if(!email.equalsIgnoreCase(""))
-        {
-            mTextViewEmailId.setText(this.getString(R.string.welcome) + email);
-        }*/
 
         loadFragment(new HomeFragment());
 
@@ -68,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         mTextViewEmailId = (TextView) headerView.findViewById(R.id.textViewUserEmailID);
 
-        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String email = sharedPreferences.getString("Email","");
-        mTextViewEmailId.setText(email);*/
+        String email = PreferencesManager.getString(getApplicationContext(),"Email","");
+        Log.i("EMAIL", "setNavigationDrawerEmail: " + email);
+
+        //Toast.makeText(this, "LOGGED IN USER" + email, Toast.LENGTH_SHORT).show();
+        mTextViewEmailId.setText(email);
+        //Toast.makeText(this, mTextViewEmailId.getText(), Toast.LENGTH_SHORT).show();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.nav_share_app) {
                     frag = new AppShareFragment();
                 }
-               // Toast.makeText(getApplicationContext(),item.getTitle(),Toast.LENGTH_LONG).show();
+
                 if (frag != null) {
                     loadFragment(frag);
                     mDrawerLayout.closeDrawers();

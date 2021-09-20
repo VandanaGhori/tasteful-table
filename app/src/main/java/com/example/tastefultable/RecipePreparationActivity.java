@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.tastefultable.Adapter.IngredientsAdapter;
@@ -34,7 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipePreparationActivity extends AppCompatActivity {
-    ImageView mRecipeImage;
+    ImageView mRecipeImage,mAddFavouriteRecipe;
     TextView mTextViewRecipeName;
     TextView mTextViewTime;
     TextView mTextViewPreparationsSteps;
@@ -51,6 +53,16 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeData();
+
+        mAddFavouriteRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAddFavouriteRecipe.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
+
+
+                Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_LONG).show();
+            }
+        });
 
         // Through intent
         getRecipeData();
@@ -158,6 +170,7 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
     private void initializeData() {
         mRecipeImage = (ImageView) findViewById(R.id.imageViewRecipe);
+        mAddFavouriteRecipe = (ImageView) findViewById(R.id.myFavourite);
         mTextViewRecipeName = (TextView) findViewById(R.id.textViewRecipeTitle);
         mTextViewTime = (TextView) findViewById(R.id.timeTextView);
         mTextViewPreparationsSteps = (TextView) findViewById(R.id.textViewPreparationsSteps);

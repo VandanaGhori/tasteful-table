@@ -1,4 +1,5 @@
 package com.example.tastefultable;
+import com.example.tastefultable.model.Favourite;
 import com.example.tastefultable.model.GeneralApiResponse;
 import com.example.tastefultable.model.Preparations;
 import com.example.tastefultable.model.Recipe;
@@ -7,6 +8,7 @@ import com.example.tastefultable.model.User;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -31,4 +33,18 @@ public interface RetrofitObjectPreparationsAPI {
 
     @GET("recipes/read.php")
     Call<GeneralApiResponse<List<Recipe>>> listRecipes();
+
+    // Insert favourite recipe into user_favourite table
+    @POST("favourites/favourite.php")
+    Call<GeneralApiResponse<Favourite>> likeRecipe(@Field("recipe_id") int recipe_id);
+
+    // Remove favourite recipe into user_favourite table
+    @DELETE("favourites/favourite.php")
+    Call<GeneralApiResponse<Favourite>> dislikeRecipe(@Field("recipe_id") int recipe_id);
+
+    // Get all the favourite recipes of logged in User
+    @GET("favourites/favourite.php")
+    Call<GeneralApiResponse<List<Favourite>>> listFavouritesRecipes(@Field("user_id") int user_id);
+
+
 }

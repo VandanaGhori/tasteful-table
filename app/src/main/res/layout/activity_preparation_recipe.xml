@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
+    android:layout_margin="12dp"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -19,7 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/indian_buffet" />
+                android:src="@drawable/indian_buffet"
+                android:contentDescription="@string/recipe_image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,26 +30,27 @@
 
                 <TextView
                     android:id="@+id/textViewRecipeTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Recipe Name"
-                    android:textSize="18dp" />
+                    android:text="@string/recipe_name"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/myFavourite"
                     android:layout_width="30dp"
                     android:layout_height="40dp"
                     android:clickable="true"
-                    android:src="@drawable/ic_baseline_favorite_border_24" />
+                    android:src="@drawable/ic_baseline_favorite_border_24"
+                    android:focusable="true" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/timeTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1 Hour 10 Mins"
-                android:textSize="10dp"
+                android:text="@string/_1_hour_10_mins"
+                android:textSize="12sp"
                 android:textAllCaps="false" />
 
             <LinearLayout
@@ -70,15 +72,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/caloriesImageView"
-                        android:text="4729 Calories"
-                        android:textSize="10dp"/>
+                        android:text="@string/_4729_calories"
+                        android:textSize="12sp"/>
                 </TableLayout>
 
                 <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="10dp">
+                    android:layout_marginStart="10dp">
 
                     <ImageView
                         android:id="@+id/servingImageView"
@@ -89,9 +90,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/servingImageView"
-                        android:text="4 Servings"
-                        android:textSize="10dp"/>
+                        android:text="@string/_4_servings"
+                        android:textSize="12sp"/>
                 </TableLayout>
 
             </LinearLayout>
@@ -116,7 +116,7 @@
                     android:layout_weight="1"
                     android:paddingStart="8dp"
                     android:text="@string/ingredients"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
 
                 <TableLayout
                     android:layout_width="wrap_content"
@@ -129,12 +129,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="18" />
+                        android:text="@string/_18" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Count" />
+                        android:text="@string/count" />
 
                 </TableLayout>
             </LinearLayout>
@@ -166,7 +166,7 @@
                     android:layout_weight="1"
                     android:paddingStart="8dp"
                     android:text="@string/directions_to_prepare"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text=""
-                android:textSize="10dp"/>
+                android:textSize="16sp"/>
 
         </LinearLayout>
 

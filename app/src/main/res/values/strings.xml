@@ -30,4 +30,14 @@
     <string name="user_not_registered">User is not registered. Please Register yourself.</string>
     <string name="user_already_registered">User is already registered. Please try to login.</string>
     <string name="alert_title">Notice.</string>
+    <string name="recipe_name">Recipe Name</string>
+    <string name="_1_hour_10_mins">1 Hour 10 Mins</string>
+    <string name="recipe_image">Recipe Image</string>
+    <string name="_4729_calories">4729 Calories</string>
+    <string name="_4_servings">4 Servings</string>
+    <string name="_18">18</string>
+    <string name="count">Count</string>
+    <string name="hello">Hello</string>
+    <string name="like">Like</string>
+    <string name="recipe">Recipe</string>
 </resources>

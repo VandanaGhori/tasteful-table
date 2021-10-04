@@ -33,7 +33,7 @@ public class PreferencesManager {
     }
 
     // helper method for retrieving values from sharedPreference
-    public static String getString(Context context,String key, String defValue) {
+    public static String getString(Context context, String key, String defValue) {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
         return sharedPreferences.getString(key, defValue);
     }

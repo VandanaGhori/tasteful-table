@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import PreferencesManager.PreferencesManager;
+import retrofit.http.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,14 +58,6 @@ public class FavoriteFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static FavoriteFragment newInstance(String param1, String param2) {
         FavoriteFragment fragment = new FavoriteFragment();
@@ -94,13 +88,12 @@ public class FavoriteFragment extends Fragment {
 
         //Log.i("FAVOURITE RECIPE LIST", "onCreateView: " + getRecipesApiResults().toString());
 
-        Log.i("LIST = ", "onCreateView: "+ favouriteRecipeList);
+        //Log.i("LIST = ", "onCreateView: "+ favouriteRecipeList);
         favouriteRecipeAdapter = new FavouriteRecipeAdapter(getContext(), favouriteRecipeList);
 
         favouriteGridView = (GridView) v.findViewById(R.id.myFavouriteGridView);
         favouriteGridView.setAdapter(favouriteRecipeAdapter);
         //favouriteGridView.notifyAll();
-
         return v;
     }
 
@@ -113,39 +106,35 @@ public class FavoriteFragment extends Fragment {
                 .build();
 
         RetrofitObjectPreparationsAPI service = retrofit.create(RetrofitObjectPreparationsAPI.class);
-
+        //Log.i("-----Token-----", "getRecipesApiResults: " + PreferencesManager.getString(getContext(),"Token",null));
         // At the time of Requesting API pass parameter id.
-        Call<GeneralApiResponse<List<Recipe>>> repos = service.listRecipes();
+        String token = PreferencesManager.getString(getContext(),"Token",null);
+        //Log.d("-----------------", "getRecipesApiResults: " + token);
+        Call<GeneralApiResponse<List<Recipe>>> repos = service.allFavouritesRecipes(token);
 
         repos.enqueue(new Callback<GeneralApiResponse<List<Recipe>>>() {
             @Override
             public void onResponse(Call<GeneralApiResponse<List<Recipe>>> call, Response<GeneralApiResponse<List<Recipe>>> response) {
                 GeneralApiResponse<List<Recipe>> apiResponse = response.body();
 
-                if(apiResponse != null) {
-                    if(apiResponse.isSuccess() && apiResponse.getError_code() == 200) {
-                        favouriteRecipeList.clear();
-                        favouriteRecipeList.addAll(apiResponse.getData());
-                        Log.i("RECIPELIST", "onResponse: " + favouriteRecipeList);
+                if(apiResponse == null) {
+                    return;
+                }
 
-//                        String image = "https://images.pexels.com/photos/3004798/pexels-photo-3004798.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
-//                        favouriteRecipeList.add(new Recipe(1,"Name1",image,"2021-09-16"));
-//                        favouriteRecipeList.add(new Recipe(2,"Name2",image,"2021-09-15"));
-//                        favouriteRecipeList.add(new Recipe(3,"Name3",image,"2021-09-14"));
-//                        favouriteRecipeList.add(new Recipe(4,"Name4",image,"2021-09-13"));
+                if(apiResponse.isSuccess() && apiResponse.getError_code() == 200) {
+                    favouriteRecipeList.clear();
+                  //  Log.i("GETDATA LIST", "LIST: " + apiResponse.getData().toString());
+                    favouriteRecipeList.addAll(apiResponse.getData());
+                   // Log.i("RECIPELIST", "onResponse: " + favouriteRecipeList);
 
-                        favouriteRecipeAdapter.notifyDataSetChanged();
-
-                    }
+                    favouriteRecipeAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onFailure(Call<GeneralApiResponse<List<Recipe>>> call, Throwable t) {
-                Toast.makeText(getContext(), "API call Failure On Recipes " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "API Call Failure On Recipes " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-        //return favouriteRecipeList;
     }
 }

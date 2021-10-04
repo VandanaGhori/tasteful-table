@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -14,19 +15,38 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="fitXY"
-            android:src="@drawable/logo_google" />
+            android:padding="2dp"
+            android:layout_margin="@dimen/cardview_default_radius"
+            android:src="@drawable/logo_google"
+            android:contentDescription="@string/recipe" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/recipeName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@color/light_gray"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="Hello"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="@color/teal_700"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/hello"
+            android:textSize="25sp"
+            android:layout_weight="1"
+            style="@style/TextAppearance.AppCompat.Title"/>
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_baseline_favorite_24"
+            android:clickable="true"
+            android:textAlignment="textEnd"
+            android:focusable="true"
+            android:contentDescription="@string/like" />
+
+        </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

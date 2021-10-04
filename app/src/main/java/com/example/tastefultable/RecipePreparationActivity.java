@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.tastefultable.Adapter.IngredientsAdapter;
+import com.example.tastefultable.model.Favourite;
 import com.example.tastefultable.model.GeneralApiResponse;
 import com.example.tastefultable.model.Ingredients;
 import com.example.tastefultable.model.Preparations;
@@ -54,15 +55,21 @@ public class RecipePreparationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeData();
 
-        mAddFavouriteRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAddFavouriteRecipe.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
+        /*boolean isFavourite = false;
+        if(!isFavourite) {
+            mAddFavouriteRecipe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mAddFavouriteRecipe.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
 
+                    likeRecipe();
 
-                Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_LONG).show();
-            }
-        });
+                    Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+
+        }*/
 
         // Through intent
         getRecipeData();
@@ -72,6 +79,39 @@ public class RecipePreparationActivity extends AppCompatActivity {
         // For getting preparations Data
         getPreparationsApiResults();
         //getPreparationsData();
+    }
+
+    private void likeRecipe() {
+        Intent intent = getIntent();
+        Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tastefultable.000webhostapp.com/tastefulTable/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitObjectPreparationsAPI service = retrofit.create(RetrofitObjectPreparationsAPI.class);
+
+        Call<GeneralApiResponse<Favourite>> repos = service.likeRecipe(recipe.getId());
+
+        repos.enqueue(new Callback<GeneralApiResponse<Favourite>>() {
+            @Override
+            public void onResponse(Call<GeneralApiResponse<Favourite>> call, Response<GeneralApiResponse<Favourite>> response) {
+                GeneralApiResponse<Favourite> apiResponse = response.body();
+
+                if(apiResponse == null) return;
+
+                if(apiResponse.isSuccess() && apiResponse.getError_code() == 200) {
+                    //Favourite favourite = apiResponse.getData();
+                    Toast.makeText(getApplicationContext(), "Recipe is marked as a favourite one.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeneralApiResponse<Favourite>> call, Throwable t) {
+                Toast.makeText(RecipePreparationActivity.this, "API response failure for favourite recipe"+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /*private void getPreparationsData() {
@@ -131,16 +171,15 @@ public class RecipePreparationActivity extends AppCompatActivity {
                 GeneralApiResponse<List<Preparations>> apiResponse = response.body();
                 //Log.i("PREPARATIONS RESPONSE", "onResponse: " + apiResponse);
 
-                if(apiResponse != null) {
-                    //boolean success_key = apiResponse.isSuccess();
-                    //Log.i("Success", "onResponse: " + success_key);
+                if(apiResponse == null) return;
+                //boolean success_key = apiResponse.isSuccess();
+                //Log.i("Success", "onResponse: " + success_key);
 
-                    if(apiResponse.isSuccess() && apiResponse.getError_code() == 200) {
-                        List<Preparations> list = (List<Preparations>) apiResponse.getData();
-                       // Log.i("Api response:", "onResponse: " + list.size());
-                        showPreparationSteps(list);
-                    } else { return; }
-                } else { return; }
+                if(apiResponse.isSuccess() && apiResponse.getError_code() == 200) {
+                    List<Preparations> list = (List<Preparations>) apiResponse.getData();
+                   // Log.i("Api response:", "onResponse: " + list.size());
+                    showPreparationSteps(list);
+                }
             }
 
             @Override

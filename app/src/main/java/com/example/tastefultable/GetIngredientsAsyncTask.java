@@ -1,6 +1,7 @@
 package com.example.tastefultable;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,12 +54,11 @@ public class GetIngredientsAsyncTask extends AsyncTask<String, Void, String> {
             // Set our result equal to our stringBuilder
             res = stringBuilder.toString();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        Log.i("JSON", "----" +res);
         return res;
     }
 

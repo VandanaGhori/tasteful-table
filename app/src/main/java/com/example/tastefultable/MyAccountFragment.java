@@ -260,7 +260,7 @@ public class MyAccountFragment extends Fragment {
         myLoginLink.setPaintFlags(myLoginLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         if(getContext() == null) return;
-        myLoginLink.setTextColor(ContextCompat.getColor(getContext(), R.color.teal_700));
+        myLoginLink.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
     }
 
     private String validateUserInput() {

@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:title="Home"
-        android:icon="@drawable/ic_baseline_home_24"/>
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/home" />
     <item
         android:id="@+id/nav_my_account"
-        android:title="My Account"
-        android:icon="@drawable/ic_baseline_my_account_24"/>
+        android:icon="@drawable/ic_baseline_my_account_24"
+        android:title="@string/my_account" />
     <item
         android:id="@+id/nav_favourite"
-        android:title="Favourites"
-        android:icon="@drawable/ic_baseline_favorite_24"/>
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="@string/favourites" />
     <item
         android:id="@+id/nav_share_app"
-        android:title="Share App"
-        android:icon="@drawable/ic_baseline_share_24"/>
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="@string/share_app" />
+    <item
+        android:id="@+id/nav_shuffle"
+        android:icon="@drawable/ic_baseline_shuffle_24"
+        android:title="@string/shuffle" />
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="@string/logout" />
 </menu>

@@ -40,12 +40,10 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/teal_700"
                 android:layout_marginTop="30dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textViewEmail"
-                    style="@style/Registration_All_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -58,8 +56,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textColorHint="@color/teal_700">
+                android:layout_marginTop="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textViewPassword"
@@ -67,9 +64,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:textColorHint="@color/teal_700" />
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,7 +89,6 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/hyperlinkRegister"
-                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

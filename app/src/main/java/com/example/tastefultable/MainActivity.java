@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tastefultable.model.ShuffleFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import PreferencesManager.PreferencesManager;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;  // Menu Button
     TextView mTextViewEmailId;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         initialize();
 
         loadFragment(new HomeFragment());
+
+        if(PreferencesManager.getString(this,"Email","") != null){
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.nav_my_account).setVisible(false);
+        }
 
         setNavigationDrawer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,20 +59,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialize() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.myDrawerLayout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         mToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout,R.string.open,R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
     }
 
     private void setNavigationDrawer() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
         // To access the email Id textview from the headerView.
         View headerView = navigationView.getHeaderView(0);
         mTextViewEmailId = (TextView) headerView.findViewById(R.id.textViewUserEmailID);
 
         String email = PreferencesManager.getString(getApplicationContext(),"Email","");
-        Log.i("EMAIL", "setNavigationDrawerEmail: " + email);
+        //Log.i("EMAIL", "setNavigationDrawerEmail: " + email);
 
         //Toast.makeText(this, "LOGGED IN USER" + email, Toast.LENGTH_SHORT).show();
         mTextViewEmailId.setText(email);
@@ -83,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
                     frag = new FavoriteFragment();
                 } else if (itemId == R.id.nav_share_app) {
                     frag = new AppShareFragment();
+                } else if (itemId == R.id.nav_shuffle) {
+                    frag = new ShuffleFragment();
                 }
 
                 if (frag != null) {

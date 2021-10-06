@@ -51,4 +51,7 @@ public interface RetrofitObjectPreparationsAPI {
 //    })
     @GET("favourites/allFavouriteRecipe.php")
     Call<GeneralApiResponse<List<Recipe>>> allFavouritesRecipes(@Header("Token") String token);
+
+    @GET("favourites/allFavouriteRecipe.php")
+    Call<GeneralApiResponse<Favourite>> isFavouriteRecipe(@Query("rec_id") int rec_id);
 }

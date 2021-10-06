@@ -20,7 +20,6 @@
     <string name="re_enter_password">Re-enter Password</string>
     <string name="email">Email</string>
     <string name="name">Name</string>
-    <string name="password">Password</string>
     <string name="password_mismatch">Password and confirm password should be matched!</string>
     <string name="password_length_constraint">Password should contain at least 6 characters!</string>
     <string name="confirm_password_length_constraint">Confirm Password should contain at least 6 characters!</string>
@@ -40,4 +39,12 @@
     <string name="hello">Hello</string>
     <string name="like">Like</string>
     <string name="recipe">Recipe</string>
+    <string name="vandana">vandana</string>
+    <string name="home">Home</string>
+    <string name="my_account">My Account</string>
+    <string name="favourites">Favourites</string>
+    <string name="share_app">Share App</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="password">Password</string>
+    <string name="logout">Logout</string>
 </resources>

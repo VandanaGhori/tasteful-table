@@ -260,7 +260,9 @@ public class LoginFragment extends Fragment {
 
         // Set underline dynamically for link
         linkTextView.setPaintFlags(linkTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        linkTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.teal_700));
+
+        if(getContext() == null) { return; }
+            linkTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
     }
 
     private void loadFragment(Fragment fragment) {

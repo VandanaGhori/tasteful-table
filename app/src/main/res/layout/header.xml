@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -9,15 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:src="@drawable/indian_buffet"
-        android:scaleType="fitXY"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/textViewUserEmailID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="vandana"
+        android:padding="10dp"
+        android:text="@string/vandana"
+        android:textColor="@color/dark_gray"
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:paddingStart="20dp"/>
+        android:paddingStart="20dp"
+        tools:ignore="RtlSymmetry"
+        android:drawableEnd="@drawable/ic_baseline_user_filled_24"/>
 
 </LinearLayout>

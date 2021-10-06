@@ -2,10 +2,12 @@ package com.example.tastefultable;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipePreparationActivity extends AppCompatActivity {
     ImageView mRecipeImage,mAddFavouriteRecipe;
-    TextView mTextViewRecipeName;
+    TextView mTextViewRecipeName, mTextViewIngredientsName;
     TextView mTextViewTime;
     TextView mTextViewPreparationsSteps;
     TextView mNumberOfIngredients;
@@ -54,6 +56,8 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeData();
+
+        checkFavouriteStatus();
 
         /*boolean isFavourite = false;
         if(!isFavourite) {
@@ -79,6 +83,32 @@ public class RecipePreparationActivity extends AppCompatActivity {
         // For getting preparations Data
         getPreparationsApiResults();
         //getPreparationsData();
+    }
+
+    private void checkFavouriteStatus() {
+        Intent intent = getIntent();
+        Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tastefultable.000webhostapp.com/tastefulTable/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitObjectPreparationsAPI service = retrofit.create(RetrofitObjectPreparationsAPI.class);
+
+        Call<GeneralApiResponse<Favourite>> repos = service.isFavouriteRecipe(recipe.getId());
+
+        repos.enqueue(new Callback<GeneralApiResponse<Favourite>>() {
+            @Override
+            public void onResponse(Call<GeneralApiResponse<Favourite>> call, Response<GeneralApiResponse<Favourite>> response) {
+                Toast.makeText(RecipePreparationActivity.this, "It is already in favourite list.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<GeneralApiResponse<Favourite>> call, Throwable t) {
+                Toast.makeText(RecipePreparationActivity.this, "Not in favourite list.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void likeRecipe() {
@@ -191,6 +221,9 @@ public class RecipePreparationActivity extends AppCompatActivity {
 
     private void showPreparationSteps(List<Preparations> pList) {
         if (pList != null && pList.size() != 0) {
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.directionsToPrepare);
+            linearLayout.setVisibility(View.VISIBLE);
+
             for (int i = 0; i < pList.size(); i++) {
                 int id = pList.get(i).getId();
                 int rec_id = pList.get(i).getRec_id();
@@ -198,11 +231,11 @@ public class RecipePreparationActivity extends AppCompatActivity {
                 int order_no = pList.get(i).getOrder_no();
 
                 // Setting the size of TextView via Java code
-                mTextViewPreparationsSteps.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+                mTextViewPreparationsSteps.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
                 mTextViewPreparationsSteps.append(order_no + ". " + steps + "\n\n");
             }
         } else {
-            mTextViewPreparationsSteps.setText("Preparations steps are not there!");
+            //mTextViewPreparationsSteps.setText("Preparations steps are not there!");
             return;
         }
     }
@@ -214,6 +247,7 @@ public class RecipePreparationActivity extends AppCompatActivity {
         mTextViewTime = (TextView) findViewById(R.id.timeTextView);
         mTextViewPreparationsSteps = (TextView) findViewById(R.id.textViewPreparationsSteps);
         mNumberOfIngredients = (TextView) findViewById(R.id.numberOfIngredients);
+        mTextViewIngredientsName = (TextView) findViewById(R.id.myIngredientsTextView);
     }
 
     private void getRecipeData() {
@@ -244,12 +278,26 @@ public class RecipePreparationActivity extends AppCompatActivity {
         GetIngredientsAsyncTask getIngredientsAsyncTask = new GetIngredientsAsyncTask();
         try {
             res = getIngredientsAsyncTask.execute(GetIngredientsAsyncTask.URL + recipe.getId()).get();
-            //Log.i("Result = ", res);
 
-            if (res.length() != 0) {
-                JSONObject jsonObject = new JSONObject(res);
-                JSONArray jsonArray = jsonObject.getJSONArray("data");
+            // Log.i("Result = ", res);
+
+            /*LinearLayout ingredientsLinearLayout = (LinearLayout) findViewById(R.id.ingredientsRequired);
+            ingredientsLinearLayout.setVisibility(View.GONE);*/
+
+            JSONObject jsonObject = new JSONObject(res);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+            if(jsonArray.length() == 0) { return; }
+
+            if (!res.isEmpty()) {
+                Toast.makeText(this, "------", Toast.LENGTH_SHORT).show();
+                LinearLayout ingredientsLinearLayout = (LinearLayout) findViewById(R.id.ingredientsRequired);
+                ingredientsLinearLayout.setVisibility(View.VISIBLE);
+
+                //  JSONObject jsonObject = new JSONObject(res);
+                //  JSONArray jsonArray = jsonObject.getJSONArray("data");
                 mIngredientsList = new ArrayList<>();
+
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
                     int id = object.getInt("id");
@@ -261,28 +309,28 @@ public class RecipePreparationActivity extends AppCompatActivity {
                     Ingredients ingredients = new Ingredients(id, rec_id, name, qty, img_url);
                     mIngredientsList.add(ingredients);
 
+                    if(i == jsonArray.length()-1) {
+                        mTextViewIngredientsName.append(qty + " " +name + "\n");
+                    } else {
+                        mTextViewIngredientsName.append(qty + " " + name + "\n\n");
+                    }
                 }
                 // Set count of total number of ingredients
                 mNumberOfIngredients.setText(String.valueOf(mIngredientsList.size()));
-                bindAdapter();
-            } else {
-                return;
+                //bindAdapter();
             }
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (JSONException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
 
-    private void bindAdapter() {
+    /*private void bindAdapter() {
         mIngredientsListView = (ListView) findViewById(R.id.myIngredientsListView);
         ingredientsAdapter = new IngredientsAdapter(getApplicationContext(), mIngredientsList);
+        mIngredientsListView.setVisibility(View.VISIBLE);
         mIngredientsListView.setAdapter(ingredientsAdapter);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
